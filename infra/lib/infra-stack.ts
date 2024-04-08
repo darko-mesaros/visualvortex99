@@ -57,9 +57,12 @@ export class VisualVortex99Stack extends cdk.Stack {
 	    'systemctl enable --now httpd',
 	    'systemctl enable --now php-fpm',
       'cd /tmp/',
-      'php -r "copy(\'https://getcomposer.org/installer\', \'composer-setup.php\');"',
+      'export HOME=/home/ec2-user/',
+      'php -r "copy(\\"https://getcomposer.org/installer\\", \\"composer-setup.php\\");"',
       'php composer-setup.php --install-dir="/usr/local/bin" --filename=composer --quiet',
       'cd /var/www/ && aws s3 sync s3://visualvortex99-webassets/ .',
+      'cd /var/www/html/',
+      'export COMPOSER_ALLOW_SUPERUSER=1',
       'composer update',
       'chown -R apache:apache /var/www/html/',
     );

@@ -1,12 +1,11 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_error',1);
 // load the AWS SDK
 require 'vendor/autoload.php';
 use Aws\BedrockRuntime\BedrockRuntimeClient;
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 	$image_prompt = $_GET["image_prompt"];
+	$style_preset = $_GET["style"];
 }
 
 if (empty($image_prompt)){
@@ -23,7 +22,7 @@ $bedrockRuntimeClient = new BedrockRuntimeClient([
 //$image_prompt = "stylized image of a cute steampunk robot";
 
 $diffusionSeed = rand(0, 4294967295);
-$style_preset = "photographic";
+//$style_preset = "photographic";
 
 $base64 = invokeStableDiffusion($image_prompt, $diffusionSeed, $style_preset, $bedrockRuntimeClient);
 $image_path = saveImage($base64, 'stability.stable-diffusion-xl');
